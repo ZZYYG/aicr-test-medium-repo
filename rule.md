@@ -15,7 +15,8 @@ if err != nil {
     return err
 }
 defer conn.Close()
-// 使用连接- **代码反例**：file, err := os.Open("file.txt")
+// 使用连接
+- **代码反例**：file, err := os.Open("file.txt")
 if err != nil {
     return err
 }
@@ -52,7 +53,8 @@ if err != nil {
 }
 if affected == 0 {
     return fmt.Errorf("未找到ID为%d的用户", userID)
-}- **代码反例**：data, _ := ioutil.ReadFile("config.json") // 忽略错误
+}
+- **代码反例**：data, _ := ioutil.ReadFile("config.json") // 忽略错误
 var config Config
 json.Unmarshal(data, &config) // 忽略错误    ---db.Exec("UPDATE users SET status = ? WHERE id = ?", "active", userID)
 // 没有检查错误或影响的行数
@@ -92,7 +94,8 @@ func Set(key, value string) {
     cacheLock.Lock()
     defer cacheLock.Unlock()
     cache[key] = value
-}- **代码反例**：type Counter struct {
+}
+- **代码反例**：type Counter struct {
     count int
 }
 
@@ -136,7 +139,8 @@ ResultSet rs = stmt.executeQuery();    ---public User findByEmail(String email) 
             return null;
         }
     }
-}- **代码反例**：String sql = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'";
+}
+- **代码反例**：String sql = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'";
 Statement stmt = connection.createStatement();
 ResultSet rs = stmt.executeQuery(sql);    ---public boolean authenticateUser(String username, String password) {
     // 危险：直接拼接用户输入到SQL语句中
@@ -167,7 +171,8 @@ ResultSet rs = stmt.executeQuery(sql);    ---public boolean authenticateUser(Str
             // 处理每个商品
         }
     }
-}- **代码反例**：public String getUserName(User user) {
+}
+- **代码反例**：public String getUserName(User user) {
     return user.getName(); // 如果user为null，将抛出NullPointerException
 }    ---public void processOrder(Order order) {
     List<Item> items = order.getItems(); // order可能为null
@@ -231,7 +236,8 @@ cleanup();    ---class ResourceManager {
     }
     this.resources.clear();
   }
-}- **代码反例**：function createLargeDataProcessor() {
+}
+- **代码反例**：function createLargeDataProcessor() {
   // 大型数据对象
   const largeData = loadLargeDataSet();
   
@@ -282,7 +288,8 @@ fetchUserData(123)
   })
   .catch(error => {
     // 处理错误
-  });- **代码反例**：async function fetchUserData(userId) {
+  });
+- **代码反例**：async function fetchUserData(userId) {
   const response = await fetch(`/api/users/${userId}`);
   const data = await response.json(); // 未处理HTTP错误和解析错误
   return data;
@@ -299,21 +306,21 @@ fetchUserData(123)
 - **问题分类**：代码逻辑问题
 - **问题等级**：Needs to improve（需要优化，不影响核心功能）
 - **代码正例**：def add_item(item, items=None):
-    # 使用不可变默认值，每次调用重新初始化
+    // 使用不可变默认值，每次调用重新初始化
     if items is None:
         items = []
     items.append(item)
     return items
-
-# 多次调用相互独立
-print(add_item(1))  # [1]
-print(add_item(2))  # [2]- **代码反例**：def add_item(item, items=[]):  # 可变对象作为默认参数
-    items.append(item)
-    return items
-
-# 多次调用共享同一个列表，导致状态累积
-print(add_item(1))  # [1]
-print(add_item(2))  # [1, 2]（预期应为[2]）
+    
+    // 多次调用相互独立
+    print(add_item(1))  # [1]
+    print(add_item(2))  # [2]- **代码反例**：def add_item(item, items=[]):  # 可变对象作为默认参数
+        items.append(item)
+        return items
+    
+    // 多次调用共享同一个列表，导致状态累积
+    print(add_item(1))  # [1]
+    print(add_item(2))  # [1, 2]（预期应为[2]）
 ## 线程池滥用
 - **编程语言**：Java
 - **问题描述**：频繁创建新线程池而不复用，会导致系统资源（线程、内存）耗尽，尤其是在高并发场景下
@@ -336,7 +343,8 @@ public class ThreadPoolManager {
 // 使用方式
 ThreadPoolManager.getExecutor().submit(() -> {
     // 执行任务
-});- **代码反例**：public void processTask(Runnable task) {
+});
+- **代码反例**：public void processTask(Runnable task) {
     // 每次调用创建新线程池，导致资源耗尽
     ExecutorService executor = Executors.newFixedThreadPool(10);
     executor.submit(task);
@@ -356,7 +364,8 @@ ThreadPoolManager.getExecutor().submit(() -> {
     }
     console.log('外部:', count);  // 0（符合预期）
     return count;
-}- **代码反例**：function countItems() {
+}
+- **代码反例**：function countItems() {
     var count = 0;
     if (true) {
         var count = 1;  // var声明会提升到函数级，覆盖外部变量
@@ -388,7 +397,8 @@ int main() {
     printf("%d\n", getElement(arr, 2));  // 3（正常访问）
     printf("%d\n", getElement(arr, 10)); // 错误提示（越界保护）
     return 0;
-}- **代码反例**：#include <stdio.h>
+}
+- **代码反例**：#include <stdio.h>
 
 #define ARRAY_SIZE 5
 
@@ -431,7 +441,8 @@ int main() {
     b->a_ptr = a;
     // 离开作用域时，引用计数归0，对象被正确销毁
     return 0;
-}- **代码反例**：#include <memory>
+}
+- **代码反例**：#include <memory>
 
 class B;  // 前向声明
 
@@ -487,7 +498,8 @@ public class Config {
     public static String getDbPassword() {
         return props.getProperty("db.password");
     }
-}- **代码反例**：# Python反例：硬编码密钥
+}
+- **代码反例**：# Python反例：硬编码密钥
 api_key = "sk-1234567890abcdef"  # 敏感信息直接暴露
 api_url = "https://prod-api.example.com"  # 环境切换需改代码```java
 // Java反例：硬编码数据库密码
@@ -531,7 +543,8 @@ int removeDuplicates(std::vector<int>& nums) {
         }
     }
     return i + 1;
-}- **代码反例**：// JavaScript反例：注释缺失+错误
+}
+- **代码反例**：// JavaScript反例：注释缺失+错误
 // 计算结果（无具体说明）
 function gcd(a, b) {
     if (b === 0) return a;
