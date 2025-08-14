@@ -525,41 +525,10 @@ function gcd(a, b) {
     if (b === 0) return a;
     // 递归：用b和a%b继续计算
     return gcd(b, a % b);
-}```c++
-// C++示例：注释与逻辑一致
-#include <vector>
-/**
- * 移除数组中重复元素（原地修改）
- * 注意：仅保留第一个出现的元素，返回新长度
- */
-int removeDuplicates(std::vector<int>& nums) {
-    if (nums.empty()) return 0;
-    int i = 0;  // 慢指针：指向最后一个不重复元素
-    // 快指针遍历数组，发现新元素则更新慢指针
-    for (int j = 1; j < nums.size(); j++) {
-        if (nums[j] != nums[i]) {
-            i++;
-            nums[i] = nums[j];
-        }
-    }
-    return i + 1;
 }
 - **代码反例**：// JavaScript反例：注释缺失+错误
 // 计算结果（无具体说明）
 function gcd(a, b) {
     if (b === 0) return a;
     return gcd(a, b % a);  // 代码错误（参数顺序反了），注释未提示
-}```c++
-// C++反例：注释与代码矛盾
-// 保留所有重复元素，返回原长度（注释错误）
-int removeDuplicates(std::vector<int>& nums) {
-    if (nums.empty()) return 0;
-    int i = 0;
-    for (int j = 1; j < nums.size(); j++) {
-        if (nums[j] != nums[i]) {
-            i++;
-            nums[i] = nums[j];
-        }
-    }
-    return i + 1;  // 实际返回去重后长度
 }
