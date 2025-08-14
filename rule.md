@@ -442,10 +442,8 @@ int main() {
     // 离开作用域时，引用计数归0，对象被正确销毁
     return 0;
 }
-- **代码反例**：#include <memory>
-
+- **代码反例**：
 class B;  // 前向声明
-
 class A {
 public:
     std::shared_ptr<B> b_ptr;  // shared_ptr形成循环
@@ -471,35 +469,17 @@ int main() {
 - **问题描述**：直接在代码中硬编码密码、密钥、API地址等敏感信息，可能导致信息泄露（如代码仓库暴露）、环境切换困难
 - **问题分类**：硬编码问题
 - **问题等级**：Critical issues（必须修复，影响功能/安全）
-- **代码正例**：# Python示例：从环境变量读取配置
+- **代码正例**：
 import os
 import json
-
 // 从环境变量获取密钥
 api_key = os.getenv("API_SECRET_KEY")
 // 从配置文件读取地址（非代码库托管）
 with open("config.json") as f:
     config = json.load(f)
 api_url = config["api_url"]```java
-// Java示例：从配置文件读取
-import java.io.FileInputStream;
-import java.util.Properties;
 
-public class Config {
-    private static final Properties props = new Properties();
-    static {
-        try {
-            // 加载外部配置文件
-            props.load(new FileInputStream("config.properties"));
-        } catch (Exception e) {
-            throw new RuntimeException("加载配置失败", e);
-        }
-    }
-    public static String getDbPassword() {
-        return props.getProperty("db.password");
-    }
-}
-- **代码反例**：# Python反例：硬编码密钥
+- **代码反例**：
 api_key = "sk-1234567890abcdef"  # 敏感信息直接暴露
 api_url = "https://prod-api.example.com"  # 环境切换需改代码```java
 // Java反例：硬编码数据库密码
@@ -507,28 +487,4 @@ public class DbConfig {
     // 密码硬编码，代码提交后全网可见
     public static final String DB_PASSWORD = "root123456";
     public static final String DB_URL = "jdbc:mysql://prod-db:3306/db";
-}
-## 注释缺失或不准确
-- **编程语言**：All
-- **问题描述**：关键逻辑、复杂算法或特殊处理缺少注释，或注释与代码功能不一致，会导致维护困难、理解偏差
-- **问题分类**：可读性问题
-- **问题等级**：Nice to have（建议优化，仅提升体验）
-- **代码正例**：// JavaScript示例：清晰注释
-/**
- * 计算两个数的最大公约数（欧几里得算法）
- * @param {number} a - 正整数
- * @param {number} b - 正整数（a >= b）
- * @returns {number} 最大公约数
- */
-function gcd(a, b) {
-    // 递归终止条件：余数为0时，当前b为最大公约数
-    if (b === 0) return a;
-    // 递归：用b和a%b继续计算
-    return gcd(b, a % b);
-}
-- **代码反例**：// JavaScript反例：注释缺失+错误
-// 计算结果（无具体说明）
-function gcd(a, b) {
-    if (b === 0) return a;
-    return gcd(a, b % a);  // 代码错误（参数顺序反了），注释未提示
 }
