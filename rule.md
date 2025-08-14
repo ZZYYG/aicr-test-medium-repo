@@ -17,8 +17,8 @@ if err != nil {
     return err
 }
 defer conn.Close()
-```
 // 使用连接
+```
 - **代码反例**：
 ```
 file, err := os.Open("file.txt")
