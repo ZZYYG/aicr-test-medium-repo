@@ -475,9 +475,9 @@ int main() {
 import os
 import json
 
-# 从环境变量获取密钥
+// 从环境变量获取密钥
 api_key = os.getenv("API_SECRET_KEY")
-# 从配置文件读取地址（非代码库托管）
+// 从配置文件读取地址（非代码库托管）
 with open("config.json") as f:
     config = json.load(f)
 api_url = config["api_url"]```java
